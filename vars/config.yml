@@ -1,0 +1,11 @@
+---
+# SSH configuration
+ec2_ssh_user: ec2-user
+ssh_key_name: mongodb_ansible
+ssh_key_path: keys/mongodb_ansible.pem
+
+# Miscellaneous
+application: MongoExample
+
+# global variables
+mongo_subnets_to_azs: []

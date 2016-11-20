@@ -1,0 +1,20 @@
+---
+# Copy the repo file to /etc/yum.repos.d
+- name: Copy the repo file for mongo
+  template:
+    force: yes
+    src: mongodb-org-3.2.repo
+    dest: /etc/yum.repos.d/
+
+# install and configure MongoDB
+- name: Install MongoDB
+  shell: yum install -y mongodb-org
+
+- name: Copy the configuration file template to the remote host
+  template:
+    force: yes
+    src: mongod.j2
+    dest: /etc/mongod.conf
+
+- name: Start the mongo daemon
+  service: name=mongod state=restarted

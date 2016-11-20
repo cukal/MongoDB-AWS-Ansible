@@ -1,0 +1,20 @@
+---
+deployment:
+  group: "{{ deployment_group }}"
+  region: "{{ target_region }}"
+  environment: "{{ env }}"
+  vpc_cidr: 172.24.0.0/16
+  mongodb:
+    ami_id: ami-f9619996 #This can change!
+    instance_type: t2.micro
+    replica_set: "repl-{{ target_region }}"
+    leader:
+      zone: "eu-central-1a"
+      subnet_cidr: 172.24.1.0/24
+    azs:
+      - zone: "eu-central-1b"
+        ensure_count: 2
+        subnet_cidr: 172.24.2.0/24
+      - zone: "eu-central-1a"
+        ensure_count: 1
+        subnet_cidr: 172.24.1.0/24

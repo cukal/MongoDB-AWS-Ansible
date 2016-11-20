@@ -1,0 +1,7 @@
+vault-password.txt
+credentials.yml
+mongodb_ansible.pem
+*.retry
+/.idea/
+.idea/
+.idea/workspace.xml
