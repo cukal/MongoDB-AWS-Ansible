@@ -1,4 +1,6 @@
 # Mongo + AWS via Ansible
+Cloned from post [post](https://www.jduv.me/devops/2016/10/19/ansible-stacks-2/) and changed for EU and changed some scripts.
+
 This example is explained in the following [post](https://www.jduv.me/devops/2016/10/19/ansible-stacks-2/). Give it a read, feel free to copy this code and modify to your hearts content, just do us a favor and give us a little internet love. Make sure you read all of this before you get started.
 
 To make this example work, create the file ```vars/credentials.yml``` and drop your aws credentials in. 
