@@ -44,8 +44,15 @@
     mongo_subnets_to_azs: "{{ mongo_subnets_to_azs + [ { 'subnet_id': item.subnet.id , 'zone': item.subnet.availability_zone }] }}"
   with_items: "{{ mongo_subnets.results }}"
 
+- name: Get route table face
+  ec2_vpc_route_table_facts:
+    region: "{{ target_region }}"
+    filters:
+      vpc-id: "{{ mongo_vpc.vpc_id }}"
+  register: ec2_vpc_route_table
+- debug: var=ec2_vpc_route_table
 
-- name: Update the routing table, needed for external ssh.
+- name: Add external ssh routing table
   ec2_vpc_route_table:
     aws_access_key: "{{ access_key_id }}"
     aws_secret_key: "{{ secret_access_key }}"
@@ -53,12 +60,23 @@
     vpc_id: "{{ mongo_vpc.vpc_id }}"
     state: present
     tags:
-      Name: Public MongoDB Route
+      Name: MongoDB SSH Public Route
     subnets:
-      - "{{ item.subnet_cidr }}"
+      - "{{ vpc_subnets_cidr[0] }}"
+      - "{{ vpc_subnets_cidr[1] }}"
     routes:
       - dest: 0.0.0.0/0
         gateway_id: igw
   register: public_route_table
-  with_items:
-    - "{{ deployment.mongodb.azs }}"
+
+- name: Update default vpc routing table
+  ec2_vpc_route_table:
+    aws_access_key: "{{ access_key_id }}"
+    aws_secret_key: "{{ secret_access_key }}"
+    region: "{{ target_region }}"
+    vpc_id: "{{ mongo_vpc.vpc_id }}"
+    lookup: id
+    route_table_id: "{{ ec2_vpc_route_table.route_tables[0].id }}"
+    state: present
+    tags:
+      Name: "MongoDBVpc_{{ deployment.environment }} "

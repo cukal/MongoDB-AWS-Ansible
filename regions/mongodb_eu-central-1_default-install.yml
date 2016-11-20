@@ -1,20 +1,23 @@
 ---
+vpc_cidr: "172.24.0.0/16"
+vpc_subnets_cidr: ["172.24.1.0/24","172.24.2.0/24"]
+
 deployment:
   group: "{{ deployment_group }}"
   region: "{{ target_region }}"
   environment: "{{ env }}"
-  vpc_cidr: 172.24.0.0/16
+  vpc_cidr: "{{ vpc_cidr }}"
   mongodb:
     ami_id: ami-f9619996 #This can change!
     instance_type: t2.micro
     replica_set: "repl-{{ target_region }}"
     leader:
       zone: "eu-central-1a"
-      subnet_cidr: 172.24.1.0/24
+      subnet_cidr: "{{ vpc_subnets_cidr[0] }}"
     azs:
       - zone: "eu-central-1b"
         ensure_count: 2
-        subnet_cidr: 172.24.2.0/24
+        subnet_cidr: "{{ vpc_subnets_cidr[1] }}"
       - zone: "eu-central-1a"
         ensure_count: 1
-        subnet_cidr: 172.24.1.0/24
+        subnet_cidr: "{{ vpc_subnets_cidr[0] }}"
