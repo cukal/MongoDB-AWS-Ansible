@@ -2,7 +2,7 @@
 # First, let's create the stacks in AWS. This includes building
 # out all the required EC2 instances, load balancers, jump boxes
 # VPCs, etc.
-- name: Deploy full mongodb cluster in AWS
+- name: Deploy mongodb 3 node replica
   hosts: localhost
   gather_facts: False
   connection: local

@@ -1,14 +1,8 @@
 #!/bin/bash
-#if [ $# -ne 3 ]; then
-#	echo "Illegal number of parameters. AWS region and environment required!"
-#	echo "Usage: install-mongo-in eu-west-1 production"
-#	exit 1;
-#fi
-
-echo "Running with:"
-echo "$1"
-echo "$2"
-echo "$3"
+echo "Executing with:"
+echo "Param 1: $1"
+echo "Param 2: $2"
+echo "Param 3: $3"
 
 # Array of required builds
 declare -a BUILDS=("default-install")
